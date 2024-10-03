@@ -1,7 +1,17 @@
 set(SDIF_PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Libraries)
 
+set(SDIF_LIB ${CMAKE_BINARY_DIR}/sdif.tar.gz)
+if(NOT EXISTS ${SDIF_LIB})
+  message(STATUS "Downloading FFTW3")
+  file(DOWNLOAD https://sourceforge.net/projects/sdif/files/latest/download
+       ${SDIF_LIB})
+endif()
+
+file(ARCHIVE_EXTRACT INPUT ${CMAKE_BINARY_DIR}/sdif.tar.gz DESTINATION
+     ${CMAKE_BINARY_DIR}/)
+
 # Search for the SDIF directory matching the pattern
-file(GLOB SDIF_DIRS "${SDIF_PARENT_DIR}/SDIF-*-src")
+file(GLOB SDIF_DIRS "${CMAKE_BINARY_DIR}/SDIF-*-src")
 
 # Ensure exactly one directory matches the pattern
 list(LENGTH SDIF_DIRS SDIF_COUNT)
